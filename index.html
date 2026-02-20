@@ -212,7 +212,7 @@ document.getElementById("contador")
 
 
 function gerar(){
-
+if (window.incrementarGeracao) window.incrementarGeracao();
 try{
 
 // toca som só se existir
@@ -402,6 +402,7 @@ getDoc(ref).then(snap => {
   
 </body>
 </html>
+
 
 
 
