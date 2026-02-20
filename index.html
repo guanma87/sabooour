@@ -301,11 +301,74 @@ window.open(
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
+import {
+getFirestore,
+doc,
+getDoc,
+setDoc,
+updateDoc,
+increment
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
 const firebaseConfig = {
-  apiKey:"...."
+
+apiKey: "AIzaSyBZufd4KPmcInuRzUvw1w9TXOfc80tVUVk",
+
+authDomain: "sabooour.firebaseapp.com",
+
+projectId: "sabooour",
+
+storageBucket: "sabooour.firebasestorage.app",
+
+messagingSenderId: "692310489581",
+
+appId: "1:692310489581:web:bf39965dba4c3a5a758fe4"
+
 };
 
+
+// inicia firebase
+
 const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+// contador REAL
+
+async function incrementarGeracao(){
+
+const ref = doc(db,"contador","geral");
+
+const snap = await getDoc(ref);
+
+if(!snap.exists()){
+
+await setDoc(ref,{
+
+memes:1,
+
+acessos:1
+
+});
+
+}else{
+
+await updateDoc(ref,{
+
+memes:increment(1)
+
+});
+
+}
+
+}
+
+
+// chama quando gerar meme
+
+window.incrementarGeracao = incrementarGeracao;
 
 </script>
 
@@ -313,6 +376,7 @@ const app = initializeApp(firebaseConfig);
 </body>
 
 </html>
+
 
 
 
