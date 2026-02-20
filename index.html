@@ -198,8 +198,7 @@ const imagens=[
 ];
 
 
-
-// contador fake viral 😄
+// contador fake 😄
 
 let numero = Math.floor(Math.random()*8000)+5000;
 
@@ -210,11 +209,21 @@ document.getElementById("contador")
 
 
 function gerar(){
+
+try{
+
+// toca som só se existir
+
 let audio = new Audio("sabor.mp3");
-audio.play();
+
+audio.play().catch(()=>{});
+
+}catch(e){}
+
+
 let palavra=document
 
-.getElementById("palavra").value;
+.getElementById("palavra").value.trim();
 
 if(!palavra){
 
@@ -238,7 +247,19 @@ img.src=imagens
 
 [Math.floor(Math.random()*imagens.length)];
 
+
+// caso erro carregar imagem
+
+img.onerror=function(){
+
+alert("erro carregando imagem 😭");
+
+};
+
+
 img.onload=function(){
+
+ctx.clearRect(0,0,600,600);
 
 ctx.drawImage(img,0,0,600,600);
 
@@ -299,12 +320,6 @@ window.open(
 }
 
 </script>
-
-
-</body>
-
-</html>
-
 
 
 
