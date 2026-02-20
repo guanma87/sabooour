@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sabooour Energético 🔥</title>
+
+<style>
+
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:20px;
+}
+
+h1{
+font-size:34px;
+margin-bottom:5px;
+}
+
+input{
+
+padding:14px;
+
+font-size:18px;
+
+width:80%;
+
+max-width:350px;
+
+border-radius:8px;
+
+border:none;
+
+margin-top:10px;
+
+}
+
+button{
+
+margin-top:15px;
+
+padding:14px 20px;
+
+font-size:18px;
+
+border-radius:8px;
+
+border:none;
+
+cursor:pointer;
+
+}
+
+.gerar{
+
+background:#ff3c00;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+canvas{
+
+margin-top:20px;
+
+width:95%;
+
+max-width:600px;
+
+border-radius:12px;
+
+}
+
+.small{
+
+opacity:.7;
+
+font-size:14px;
+
+margin-top:25px;
+
+}
+
+.pix{
+
+background:#1d1d1d;
+
+padding:15px;
+
+border-radius:10px;
+
+margin-top:20px;
+
+font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<h1>SABOOOUR ENERGÉTICO 🔥</h1>
+
+<div id="contador"></div>
+
+<input id="palavra" placeholder="Digite qualquer palavra">
+
+<br>
+
+<button class="gerar" onclick="gerar()">
+
+GERAR SABOOOUR
+
+</button>
+
+
+<br>
+
+<canvas id="canvas" width="600" height="600"></canvas>
+
+<br>
+
+<button onclick="baixar()">
+
+Baixar JPG
+
+</button>
+
+<br>
+
+<button onclick="whats()">
+
+Compartilhar WhatsApp
+
+</button>
+
+
+
+<div class="pix">
+
+<p>
+
+Se esse projeto te fez sorrir 😄
+
+<br><br>
+
+pra manter o projeto online deixe sua contribuição ❤️
+
+</p>
+
+<b>
+
+PIX:
+
+<br>
+
+44f2be6c-6dc5-4130-b371-fe903ed55e56
+
+</b>
+
+</div>
+
+
+
+<p class="small">
+
+feito pra diversão 🔥
+
+</p>
+
+
+<script>
+
+const imagens=[
+
+"https://picsum.photos/600?random=11",
+
+"https://picsum.photos/600?random=22",
+
+"https://picsum.photos/600?random=33",
+
+"https://picsum.photos/600?random=44",
+
+"https://picsum.photos/600?random=55"
+
+];
+
+
+
+// contador fake viral 😄
+
+let numero = Math.floor(Math.random()*8000)+5000;
+
+document.getElementById("contador")
+
+.innerHTML="🔥 "+numero+" sabooours já criados";
+
+
+
+function gerar(){
+
+let palavra=document
+
+.getElementById("palavra").value;
+
+if(!palavra){
+
+alert("digita alguma coisa 😄");
+
+return;
+
+}
+
+let canvas=document
+
+.getElementById("canvas");
+
+let ctx=canvas.getContext("2d");
+
+let img=new Image();
+
+img.crossOrigin="anonymous";
+
+img.src=imagens
+
+[Math.floor(Math.random()*imagens.length)];
+
+img.onload=function(){
+
+ctx.drawImage(img,0,0,600,600);
+
+ctx.fillStyle="white";
+
+ctx.strokeStyle="black";
+
+ctx.lineWidth=8;
+
+ctx.font="bold 55px Impact";
+
+ctx.textAlign="center";
+
+ctx.textBaseline="bottom";
+
+let texto="Sabooour "+palavra;
+
+ctx.strokeText(texto,300,580);
+
+ctx.fillText(texto,300,580);
+
+}
+
+}
+
+
+
+function baixar(){
+
+let canvas=document
+
+.getElementById("canvas");
+
+let link=document.createElement("a");
+
+link.download="sabooour.jpg";
+
+link.href=canvas.toDataURL("image/jpeg");
+
+link.click();
+
+}
+
+
+
+function whats(){
+
+let url=window.location.href;
+
+window.open(
+
+"https://wa.me/?text=Criei%20meu%20Sabooour%20🔥%20"+url,
+
+"_blank"
+
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
