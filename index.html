@@ -326,26 +326,82 @@ window.open(
 </script>
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  runTransaction
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBZufd4KPmcInuRzUwvlw9TXOfc8OtVUVk",
-    authDomain: "sabooour.firebaseapp.com",
-    projectId: "sabooour",
-    storageBucket: "sabooour.firebasestorage.app",
-    messagingSenderId: "692310489581",
-    appId: "1:692310489581:web:bf39965dba4c3a5a758fe4"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyBZufd4KPmcInuRzUvw1w9TXOfc80tVUVk",
+  authDomain: "sabooour.firebaseapp.com",
+  projectId: "sabooour",
+  storageBucket: "sabooour.firebasestorage.app",
+  messagingSenderId: "692310489581",
+  appId: "1:692310489581:web:bf39965dba4c3a5a758fe4"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const ref = doc(db, "contador", "geral");
+
+function atualizarNaTela(data) {
+  const el = document.getElementById("contador");
+  if (!el) return;
+
+  const memes = Number(data?.memes ?? 0);
+  const acessos = Number(data?.acessos ?? 0);
+
+  el.textContent = `🔥 ${memes} sabooours criados • 👀 ${acessos} acessos`;
+}
+
+async function incrementar(campo) {
+  try {
+    const novo = await runTransaction(db, async (tx) => {
+      const snap = await tx.get(ref);
+
+      if (!snap.exists()) {
+        const base = { memes: 0, acessos: 0 };
+        base[campo] = 1;
+        tx.set(ref, base);
+        return base;
+      }
+
+      const atual = snap.data();
+      const atualizado = {
+        memes: Number(atual.memes ?? 0),
+        acessos: Number(atual.acessos ?? 0),
+      };
+
+      atualizado[campo] = atualizado[campo] + 1;
+
+      tx.update(ref, { [campo]: atualizado[campo] });
+      return atualizado;
+    });
+
+    atualizarNaTela(novo);
+  } catch (e) {
+    console.warn("Erro contador Firebase:", e);
+  }
+}
+
+// deixa disponível pro seu JS normal
+window.contarAcesso = () => incrementar("acessos");
+window.incrementarGeracao = () => incrementar("memes");
+
+// conta 1 acesso ao abrir
+window.contarAcesso();
+
+// tenta carregar contagem atual pra mostrar
+getDoc(ref).then(snap => {
+  if (snap.exists()) atualizarNaTela(snap.data());
+}).catch(()=>{});
 </script>
   
 </body>
 </html>
+
 
 
